@@ -18,5 +18,16 @@ def friends():
     friend_list = [ 'friend1', 'friend2', 'friend2', 'friendetc' ]
     return render_template('friends.html', title = title, form = form, friends = friend_list)
 
+@app.route('/groups')
+def groups():
+    form = userLogin()
+    title = 'Groups'
+    group_list = {
+        'Group1' : [ 'member1', 'member2', 'member3' ],
+        'Group2' : [ 'member1', 'member2', 'member3' ],
+        'Groupetc' : 'membersetc'
+    }
+    return render_template('groups.html', title = title, form = form, groups = group_list)
+
 if __name__ == '__main__':
     app.run()

@@ -6,3 +6,5 @@ class userLogin(FlaskForm):
     password = PasswordField('Enter Password')
     submit = SubmitField('Submit')
     message = SubmitField('Message')
+    remove = SubmitField('Remove')
+    leave = SubmitField('Leave Group')

@@ -2,13 +2,19 @@
 
 {% block content %}
     <h2>
-        Your Friends
+        Your Groups
     </h2>
 
     <form action = "" method = "post" novalidate>
         <ul style="list-style-type:none;">
-        {% for i in friends %}
-            <p>{{ i }} {{ form.message() }} {{ form.remove()}} </p>
+        {% for i in groups %}
+        <p>
+            {{ i }}
+            <br>
+            <dd> {{ groups[i] }} </dd>
+            <br>
+            {{ form.message() }} {{ form.leave() }}
+        </p>
         {% endfor %}
         </ul>
     </form>
