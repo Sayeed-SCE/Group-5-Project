@@ -15,3 +15,11 @@ def deleteAllUserPosts(user):
     for p in user.posts:
         db.session.delete(p)
     db.session.commit()
+
+def deleteUser(user):
+    db.session.delete(user)
+    db.session.commit()
+
+def deletePost(post):
+    db.session.delete(post)
+    db.session.commit()
