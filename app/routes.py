@@ -16,6 +16,11 @@ def login():
         return redirect('/index')
     return render_template('login.html', form = form, title = title)
 
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
 @app.route('/friends')
 def friends():
     form = userLogin()
