@@ -50,11 +50,17 @@ def groups():
 
 @app.route('/register')
 def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
     form = userRegistry()
     title = 'Register New User'
-    usernameList = {
-        'user1', 'user2', 'David'
-    }
-    return render_template('registry.html', title = title, form = form, usernameList = usernameList)
+    if form.validate_on_submit():
+        user = User(username = form.username.data, email = form.email.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('Congratulations, you are now a registered user!')
+        return redirect(url_for('login'))
+    return render_template('registry.html', title = title, form = form)
 
 
