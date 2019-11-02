@@ -1,4 +1,4 @@
-from app import app
+from app import app, db, LoginManager
 from flask import Flask, render_template, flash, redirect, url_for
 from flask_login import current_user, login_user, logout_user, login_required
 from app.forms import userLogin, userRegistry
@@ -21,16 +21,18 @@ def login():
         if user is None or not user.check_password(form.password.data):
             flash('Invalid username or password')
             return redirect(url_for('login'))
-        login_user(user, remember = form.remember_me.data)
+        login_user(user, remember = form.rememberMe.data)
         return redirect(url_for('index'))
     return render_template('login.html', form = form, title = title)
 
 @app.route('/logout')
+@login_required
 def logout():
     logout_user()
     return redirect(url_for('index'))
 
 @app.route('/friends')
+@login_required
 def friends():
     form = userLogin()
     title = 'Friends'
@@ -38,6 +40,7 @@ def friends():
     return render_template('friends.html', title = title, form = form, friends = friend_list)
 
 @app.route('/groups')
+@login_required
 def groups():
     form = userLogin()
     title = 'Groups'
@@ -48,7 +51,7 @@ def groups():
     }
     return render_template('groups.html', title = title, form = form, groups = group_list)
 
-@app.route('/register')
+@app.route('/register', methods = ['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
