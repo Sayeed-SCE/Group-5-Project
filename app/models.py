@@ -16,6 +16,8 @@ class User(db.Model):
     def __repr__(self):
         return '<User {}>'.format(self.username)
     messages = db.relationship('Message', backref = 'author')
+    dmSent = db.relationship('directMessage', backref = 'sender')
+    dmReceived = db.relationship('directMessage', backref = 'recipient')
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -40,3 +42,12 @@ class Message(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     def __repr__(self):
         return '<Messages: {}>'.format(self.body)
+
+class directMessage(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    body = db.Column(db.String(256))
+    timestamp = db.Column(db.DateTime, index = True, default = datetime.utcnow)
+    user_sender = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_receiver = db.Column(db.Integer, db.ForeignKey('user.id'))
+    def __repr__(self):
+        return '<Messages between users: {}>'.format(self.body)
