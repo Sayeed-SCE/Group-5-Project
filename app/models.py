@@ -13,6 +13,7 @@ class User(db.Model):
     username = db.Column(db.String(64), index = True, unique = True)
     email = db.Column(db.String(128), index = True, unique = True)
     password_hash = db.Column(db.String(128))
+    friends = db.relationship('Friends')
     def __repr__(self):
         return '<User {}>'.format(self.username)
     messages = db.relationship('Message', backref = 'author')
@@ -31,6 +32,15 @@ class User(db.Model):
     
     def get_id(self):
         return UserMixin.get_id(self)
+
+
+#added nov. 4
+class Friends(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    friend_username = db.Column(db.String(64), index = True, unique = True)
+    def __repr__(self):
+        return '<Friend {}>'.format(self.username)
 
 
 class Message(db.Model):

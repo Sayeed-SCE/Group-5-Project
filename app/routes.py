@@ -10,7 +10,7 @@ def index():
     user = {'username': 'David'}
     return render_template('index.html', title = 'Home', user = user)
 
-@app.route('/login', methods = ['GET', 'POST'])
+@app.route('/login', methods = ['GET', 'POST']) #return a message that login was unsuccessful
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
@@ -25,7 +25,7 @@ def login():
         return redirect(url_for('index'))
     return render_template('login.html', form = form, title = title)
 
-@app.route('/logout')
+@app.route('/logout') #make this option unavailable when no one is logged in
 @login_required
 def logout():
     logout_user()
@@ -51,7 +51,7 @@ def groups():
     }
     return render_template('groups.html', title = title, form = form, groups = group_list)
 
-@app.route('/register', methods = ['GET', 'POST'])
+@app.route('/register', methods = ['GET', 'POST']) #return error messages if register wasnt complete
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
