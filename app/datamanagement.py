@@ -1,5 +1,5 @@
 from app import db
-from app.models import User, Message
+from app.models import *
 
 def deleteAllUsers():
     for u in User.query.all():
@@ -22,4 +22,8 @@ def deleteUser(user):
 
 def deleteMessage(message):
     db.session.delete(message)
+    db.session.commit()
+
+def deleteFriend(friend):
+    db.session.delete(friend)
     db.session.commit()
