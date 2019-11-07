@@ -16,6 +16,7 @@ class User(db.Model):
     def __repr__(self):
         return '<User {}>'.format(self.username)
     messages = db.relationship('Message', backref = 'author')
+    friendsList = db.relationship('Friend', backref = 'requestee')
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -40,3 +41,22 @@ class Message(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     def __repr__(self):
         return '<Messages: {}>'.format(self.body)
+
+class directMessage(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    body = db.Column(db.String(256))
+    timestamp = db.Column(db.DateTime, index = True, default = datetime.utcnow)
+    sent_user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    receive_user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    sent = db.relationship(User, foreign_keys=[sent_user_id])
+    receive = db.relationship(User, foreign_keys=[receive_user_id])
+    def __repr__(self):
+        return '<Messages between users: {}>'.format(self.body)
+
+class Friend(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    friendUsername = db.Column(db.String(256))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    def __repr__(self):
+        return '<Friends: {}>'.format(self.friendUsername)
+    
