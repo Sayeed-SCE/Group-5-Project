@@ -19,6 +19,7 @@ class User(db.Model):
     def __repr__(self):
         return '<User {}>'.format(self.username)
     messages = db.relationship('Message', backref='author')
+    friends = db.relationship('Friends', backref='friend')
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -46,10 +47,10 @@ class Message(db.Model):
         return '<Messages: {}>'.format(self.body)
 
 
-class Group(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    groupname = db.Column(db.String(64), index=True, unique=False)
-    members = db.Column(db.String(256))
+# class Group(db.Model):
+#    id = db.Column(db.Integer, primary_key=True)
+#    groupname = db.Column(db.String(64), index=True, unique=False)
+#    members = db.Column(db.String(256))
 
-    def __repr__(self):
-        return '<Group: {}>'.format(self.body)
+#    def __repr__(self):
+#        return '<Group: {}>'.format(self.body)
