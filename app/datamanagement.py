@@ -31,3 +31,6 @@ def deleteMessage(message):
 def deleteFriend(friend):
     db.session.delete(friend)
     db.session.commit()
+
+def searchForMessage(user, message):
+    return directMessage.query.filter_by(sent = user, body = message).first()
