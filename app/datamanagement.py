@@ -1,9 +1,13 @@
 from app import db
-from app.models import User, Message
+from app.models import User, Message, directMessage
 
 def deleteAllUsers():
     for u in User.query.all():
         db.session.delete(u)
+    db.session.commit()
+
+def deleteDirectMessage(directMessage):
+    db.session.delete(directMessage)
     db.session.commit()
 
 def deleteAllMessages():
